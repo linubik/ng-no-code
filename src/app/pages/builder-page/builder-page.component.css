@@ -1,0 +1,157 @@
+/* Layout Global */
+.builder-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr 300px;
+  height: 100vh;
+  background-color: #f4f7f6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+}
+
+/* Barre de Gauche */
+.palette {
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #1a252f;
+}
+
+.project-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.btn-save {
+  width: 100%;
+  padding: 10px;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-import {
+  width: 100%;
+  padding: 10px;
+  background: #7f8c8d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.toolbar-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.palette button:not(.btn-save):not(.btn-import) {
+  padding: 12px;
+  background: #34495e;
+  color: #ecf0f1;
+  border: 1px solid #465a6d;
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.palette button:hover {
+  opacity: 0.9;
+}
+
+/* Zone Centrale */
+.canvas {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.canvas-header {
+  background: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.screen-selector {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-add-screen {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.drop-zone {
+  background: white;
+  flex-grow: 1;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  min-height: 500px;
+}
+
+.comp-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background: white;
+  transition: all 0.2s;
+}
+
+.comp-item:hover {
+  border: 2px dashed #3498db;
+  cursor: grab;
+}
+
+.comp-item.active {
+  border: 2px solid #3498db;
+  background: #f0f7ff;
+}
+
+/* Drag & Drop Utility */
+.cdk-drag-preview {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: white;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+  background: #ebf5fb;
+  border: 2px dashed #3498db;
+  min-height: 60px;
+  margin-bottom: 10px;
+}
+
+/* Barre de Droite */
+.inspector {
+  background: white;
+  border-left: 1px solid #ddd;
+  padding: 20px;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 100px;
+  color: #bdc3c7;
+  font-style: italic;
+}

@@ -1,0 +1,27 @@
+<div class="renderer-wrapper">
+  @switch (config().type) { @case ('input') {
+  <label>{{ config().label }}</label>
+  <input type="text" [placeholder]="config().label" class="form-control" />
+  } @case ('date') {
+  <label>{{ config().label }}</label>
+  <input type="date" class="form-control" />
+  } @case ('combo') {
+  <label>{{ config().label }}</label>
+  <select class="form-select">
+    @for (opt of config().options; track opt) {
+    <option>{{ opt }}</option>
+    }
+  </select>
+  } @case ('button') {
+  <button class="btn-primary">{{ config().label }}</button>
+  } @case ('list') {
+  <label>{{ config().label }}</label>
+  <ul style="list-style: none; padding: 0; margin: 0; border: 1px solid #eee;">
+    @for (opt of config().options; track opt) {
+    <li style="padding: 8px; border-bottom: 1px solid #eee; background: #fff;">
+      {{ opt }}
+    </li>
+    }
+  </ul>
+  } }
+</div>
