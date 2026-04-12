@@ -70,6 +70,13 @@
     <h3>Propriétés</h3>
     @if (builder.selectedComponentId()) {
     <p>ID : {{ builder.selectedComponentId()?.substring(0, 8) }}</p>
+    @for (comp of builder.activeScreen()?.components; track comp.id) {
+      @if (comp.id === builder.selectedComponentId()) {
+        <div>type : {{ comp.type }}</div>
+        <div>label : {{ comp.label }}</div>
+        <div>value : {{ comp.value }}</div>  
+      }
+    }
     } @else {
     <p class="hint">Sélectionnez un élément</p>
     }
