@@ -1,157 +1,109 @@
-/* Layout Global */
-.builder-layout {
-  display: grid;
-  grid-template-columns: 260px 1fr 300px;
+/* Conteneur principal */
+.app-container {
+  display: flex;
+  flex-direction: column;
   height: 100vh;
-  background-color: #f4f7f6;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100vw;
+  background: #f0f2f5;
   overflow: hidden;
 }
 
-/* Barre de Gauche */
-.palette {
+/* Header fixe en haut */
+.top-bar {
+  height: 60px;
   background: #2c3e50;
   color: white;
-  padding: 20px;
   display: flex;
-  flex-direction: column;
-  border-right: 1px solid #1a252f;
-}
-
-.project-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 30px;
-}
-
-.btn-save {
-  width: 100%;
-  padding: 10px;
-  background: #27ae60;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.btn-import {
-  width: 100%;
-  padding: 10px;
-  background: #7f8c8d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.toolbar-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.palette button:not(.btn-save):not(.btn-import) {
-  padding: 12px;
-  background: #34495e;
-  color: #ecf0f1;
-  border: 1px solid #465a6d;
-  border-radius: 4px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.palette button:hover {
-  opacity: 0.9;
-}
-
-/* Zone Centrale */
-.canvas {
-  padding: 20px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.canvas-header {
-  background: white;
-  padding: 15px 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.screen-selector {
-  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 15px;
+  padding: 0 20px;
+  flex-shrink: 0; /* Empêche le header de s'écraser */
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
-.btn-add-screen {
-  background: #3498db;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 4px;
-  cursor: pointer;
+.main-content {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  overflow: hidden; /* Important pour que seules les zones internes scrollent */
 }
 
-.drop-zone {
-  background: white;
-  flex-grow: 1;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  padding: 30px;
-  min-height: 500px;
-}
-
-.comp-item {
-  padding: 15px;
-  margin-bottom: 10px;
-  border: 2px solid transparent;
-  border-radius: 6px;
-  background: white;
-  transition: all 0.2s;
-}
-
-.comp-item:hover {
-  border: 2px dashed #3498db;
-  cursor: grab;
-}
-
-.comp-item.active {
-  border: 2px solid #3498db;
-  background: #f0f7ff;
-}
-
-/* Drag & Drop Utility */
-.cdk-drag-preview {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  background: white;
-  border-radius: 6px;
-  padding: 10px;
-}
-
-.cdk-drag-placeholder {
-  opacity: 0.3;
-  background: #ebf5fb;
-  border: 2px dashed #3498db;
-  min-height: 60px;
-  margin-bottom: 10px;
-}
-
-/* Barre de Droite */
-.inspector {
-  background: white;
+.sidebar-left, .sidebar-right {
+  width: 280px;
+  background: #fff;
+  border-right: 1px solid #ddd;
   border-left: 1px solid #ddd;
   padding: 20px;
+  overflow-y: auto;
+  flex-shrink: 0;
 }
 
-.empty-state {
-  text-align: center;
-  margin-top: 100px;
-  color: #bdc3c7;
-  font-style: italic;
+/* ZONE CENTRALE : Correction de l'alignement */
+.canvas-area {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: flex-start; /* Aligne en haut pour éviter le chevauchement avec le header */
+  padding: 40px 20px;      /* Marge de 40px en haut pour bien voir le téléphone */
+  overflow-y: auto;        /* Permet de scroller si le téléphone est grand */
+  background: #e9ecef;
 }
+
+/* LE TELEPHONE */
+.phone-frame {
+  background: white;
+  width: 375px; 
+  min-height: 667px;
+  border-radius: 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  border: 14px solid #1a1a1a;
+  padding: 30px 20px;
+  position: relative;
+  flex-shrink: 0; /* Empêche le téléphone de se ratatiner */
+  margin-bottom: 40px; /* Marge en bas pour le scroll */
+}
+
+/* Encoche décorative pour le haut du téléphone */
+.phone-frame::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 20px;
+  background: #1a1a1a;
+  border-radius: 0 0 15px 15px;
+}
+
+/* Palette et UI */
+.btn-mode {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  background: #27ae60;
+  color: white;
+  transition: background 0.2s;
+}
+.btn-mode.is-runtime { background: #e67e22; }
+
+.screen-item {
+  padding: 12px;
+  margin-bottom: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.screen-item.active { background: #3498db; color: white; }
+.screen-item:hover:not(.active) { background: #eee; }
+
+.comp-wrapper {
+  width: 100%;
+  margin-bottom: 15px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+.comp-wrapper.selected { border: 2px solid #3498db; background: #f0faff; }

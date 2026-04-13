@@ -1,84 +1,62 @@
-<div class="builder-layout">
-  <aside class="palette">
-    <div class="project-actions">
-      <button class="btn-save" (click)="builder.saveProject()">
-        💾 Exporter JSON
+<div class="app-container">
+  
+  <header class="top-bar">
+    <div class="logo">Nicole Designer <small>v20</small></div>
+    <div class="actions">
+      <button class="btn-mode" [class.is-runtime]="builder.isRuntimeMode()" (click)="builder.toggleMode()">
+        {{ builder.isRuntimeMode() ? '🛠 Quitter le mode Test' : '▶ Lancer le Test' }}
       </button>
-
-      <input
-        type="file"
-        #fileInput
-        (change)="onFileSelected($event)"
-        accept=".json"
-        style="display: none"
-      />
-      <button class="btn-import" (click)="fileInput.click()">
-        📂 Importer JSON
-      </button>
+      @if (!builder.isRuntimeMode()) {
+        <button (click)="builder.saveProject()" style="margin-left: 10px; cursor: pointer;">💾 Exporter JSON</button>
+      }
     </div>
+  </header>
 
-    <h2>Éléments</h2>
-    <div class="toolbar-grid">
-      <button (click)="builder.addComponent('input')">Texte</button>
-      <button (click)="builder.addComponent('date')">Date</button>
-      <button (click)="builder.addComponent('combo')">Combo</button>
-      <button (click)="builder.addComponent('list')">Liste</button>
-      <button (click)="builder.addComponent('button')">Bouton</button>
-    </div>
-  </aside>
+  <div class="main-content">
+    @if (!builder.isRuntimeMode()) {
+      <aside class="sidebar-left">
+        <section>
+          <h4>Composants</h4>
+          <div class="palette" style="display: grid; gap: 10px;">
+            <button (click)="builder.addComponent('input')">Champ Texte</button>
+            <button (click)="builder.addComponent('date')">Date</button>
+            <button (click)="builder.addComponent('button')">Bouton</button>
+            <button (click)="builder.addComponent('combo')">Liste</button>
+          </div>
+        </section>
+        
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
 
-  <main class="canvas">
-    <div class="canvas-header">
-      <div class="screen-selector">
-        <span>Écran : </span>
-        <select
-          [ngModel]="builder.currentScreenId()"
-          (ngModelChange)="builder.currentScreenId.set($event)"
-        >
+        <section>
+          <h4>Navigation</h4>
           @for (s of builder.screens(); track s.id) {
-          <option [value]="s.id">{{ s.name }}</option>
+            <div class="screen-item" [class.active]="builder.currentScreenId() === s.id" (click)="builder.currentScreenId.set(s.id)">
+              📄 {{ s.name }}
+            </div>
           }
-        </select>
-        <button class="btn-add-screen" (click)="promptNewScreen()">
-          + Ajouter
-        </button>
-      </div>
-    </div>
-
-    <div class="drop-zone" cdkDropList (cdkDropListDropped)="drop($event)">
-      @for (comp of builder.activeScreen()?.components; track comp.id) {
-      <div
-        class="comp-item"
-        cdkDrag
-        [class.active]="builder.selectedComponentId() === comp.id"
-        (click)="
-          builder.selectedComponentId.set(comp.id); $event.stopPropagation()
-        "
-      >
-        <app-dynamic-renderer [config]="comp" />
-        <div class="cdk-drag-placeholder" *cdkDragPlaceholder></div>
-      </div>
-      } @empty {
-      <div class="empty-state">
-        La page est vide. Ajoutez des éléments à gauche.
-      </div>
-      }
-    </div>
-  </main>
-
-  <aside class="inspector">
-    <h3>Propriétés</h3>
-    @if (builder.selectedComponentId()) {
-    <p>ID : {{ builder.selectedComponentId()?.substring(0, 8) }}</p>
-    @for (comp of builder.activeScreen()?.components; track comp.id) {
-      @if (comp.id === builder.selectedComponentId()) {
-        <div>type : {{ comp.type }}</div>
-        <div>label : {{ comp.label }}</div>
-        <div>value : {{ comp.value }}</div>  
-      }
+          <button (click)="builder.addScreen('Nouvel écran')" style="width: 100%; margin-top: 10px;">+ Ajouter Écran</button>
+        </section>
+      </aside>
     }
-    } @else {
-    <p class="hint">Sélectionnez un élément</p>
+
+    <main class="canvas-area">
+      <div class="phone-frame">
+        <div class="screen-content">
+          @for (comp of builder.activeScreen()?.components; track comp.id) {
+            <div class="comp-wrapper" 
+                 [class.selected]="builder.selectedComponentId() === comp.id"
+                 (click)="!builder.isRuntimeMode() && builder.selectedComponentId.set(comp.id)">
+              <app-dynamic-renderer [config]="comp" />
+            </div>
+          }
+        </div>
+      </div>
+    </main>
+
+    @if (!builder.isRuntimeMode()) {
+      <aside class="sidebar-right">
+        <app-inspector />
+      </aside>
     }
-  </aside>
+  </div>
 </div>
